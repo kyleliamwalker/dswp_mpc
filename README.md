@@ -2,6 +2,8 @@
 
 ⌛⌛ Under Construction ⌛⌛
 
+* To be noted: this playground utilises CasADi as a solver within a Nonlinear Model Predictive Controller. To avoid issues when running the NMPC launchpad, the Windows CasADi package is included within this repository.
+
 **Relevant Publications:**
 
 [1] **K. L. Walker** et al., ”Experimental Validation of Wave Induced Disturbances for Predictive Station Keeping of a Remotely Operated Vehicle”, IEEE Robotics and Automation Letters, vol. 6, no. 3, pp. 5421-5428, July 2021. \
