@@ -2,7 +2,7 @@
 
 ⌛⌛ Under Construction ⌛⌛
 
-Relevant Publications:
+**Relevant Publications:**
 
 [1] K. L. Walker et al., ”Experimental Validation of Wave Induced Disturbances for Predictive Station Keeping of a Remotely Operated Vehicle”, IEEE Robotics and Automation Letters, vol. 6, no. 3, pp. 5421-5428, July 2021. \
 [2] R. Gabl, T. Davey, Y. Cao, Q. Li, B. Li, K. L. Walker, et al., ”Hydrodynamic loads on a restrained ROV under waves and current”, Ocean Engineering, vol. 234, Aug. 2021. \
