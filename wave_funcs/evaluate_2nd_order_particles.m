@@ -1,4 +1,7 @@
-
+% Author: Dr. Kyle L. Walker
+% Description: Calculate particle velocities and accelerations at a given
+% location and according to a given JONSWAP spectra, according to a 2nd
+% order model. Does not account for shallow/deep categorisation of waves.
 
 function [ spectra ] = evaluate_2nd_order_particles( t, x, z, spectra )
 

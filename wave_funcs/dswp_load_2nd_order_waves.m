@@ -1,37 +1,17 @@
+% Author: Dr. Kyle L. Walker
+% Description: Loads waves based on a second-order linear wave theory model
+% accounting for drift as well, with data being sourced from the online 
+% repository of Cefas. Accounts for the dispersion relation.
 
 function [ spectra ] = dswp_load_2nd_order_waves( t, x, dx )
 
-spectra.d = 54;    
-spectra.theta = 0;
-spectra.rho = 1025;
-df = 0.005;
-g = 9.81;
+spectra.d = 54;         % seabed depth
+spectra.theta = 0;      % as planar waves, directionality is zero
+spectra.rho = 1025;     % sea water density
+df = 0.005;             % freq. bin width
+g = 9.81;               % gravitational constant
 
-%%%%% Tp = 7.1, Hs = 2.78   
-% spectra.f = [ 0.04, 0.06, 0.078, 0.09, 0.1, 0.11, 0.119, 0.125, 0.13, ...
-%     0.135, 0.14, 0.145, 0.15, 0.155, 0.161, 0.17, 0.18, 0.19, 0.203, ...
-%     0.22, 0.24, 0.26, 0.28, 0.3, 0.335, 0.4, 0.48 ];
-% spectra.T = [ 25, 16.67, 12.9, 11.11, 10, 9.09, 8.42, 8, 7.69, 7.41, ...
-%     7.14, 6.9, 6.67, 6.45, 6.2, 5.88, 5.56, 5.26, 4.94, 4.55, 4.17, ...
-%     3.85, 3.57, 3.33, 2.99, 2.5, 2.08 ];
-% spectra.S = [0.0714, 0.199, 0.126, 1.2805, 1.2534, 1.8393, 3.3939, ...
-%     4.6515, 4.7502, 5.6179, 6.9271, 5.9824, 4.4603, 4.7502, 5.166, ...
-%     3.7703, 3.3232, 2.045, 1.6192, 0.9897, 0.7971, 0.78, 0.253, ...
-%     0.3123, 0.2652, 0.0932, 0.0368 ];
-% 
-%%%%% Tp = 9.5, Hs = 3.47
-% spectra.f = [ 0.025, 0.043, 0.055, 0.065, 0.075, 0.084, 0.09, 0.095, 0.1, ...
-%     0.105, 0.11, 0.115, 0.12, 0.126, 0.135, 0.145, 0.155, 0.168, 0.185, ...
-%     0.205, 0.225, 0.245, 0.265, 0.285, 0.32, 0.385, 0.465 ];
-% spectra.T = [ 40, 23.53, 18.18, 15.38, 13.33, 11.94, 11.11, 10.53, 10, ...
-%     9.52, 9.09, 8.7, 8.33, 7.92, 7.41, 6.9, 6.45, 5.97, 5.41, 4.88, 4.44, ...
-%     4.08, 3.77, 3.51, 3.13, 2.6, 2.15 ];
-% spectra.S = [ 0.0016, 0.0362, 0.0484, 0.0433, 0.1367, 0.2737, 1.0914, ...
-%     2.9028, 9.8934, 15.0459, 12.2023, 10.1033, 8.9074, 6.6351, 3.3703, ...
-%     3.3703, 3.5169, 2.2442, 2.6648, 1.6576, 0.9124, 0.6783, 0.4537, ...
-%     0.3821, 0.3726, 0.0737, 0.0563 ];
-
-%%%%% Tp = 11.1, Hs = 3.24
+%%%%% JONSWAP Parameters: Tp = 11.1, Hs = 3.24
 spectra.f = [ 0.03, 0.04, 0.05, 0.06, 0.069, 0.075, 0.08, 0.085, 0.09, ...
     0.095, 0.1, 0.105, 0.111, 0.12, 0.13, 0.14, 0.153, 0.17, 0.19, 0.21, ...
     0.23, 0.25, 0.27, 0.29, 0.325, 0.39, 0.47 ];
@@ -52,6 +32,8 @@ d = spectra.d;  A = spectra.A;  T = spectra.T;  E = spectra.E; H = spectra.H;
 [ spectra.w, spectra.L, spectra.k ] = dispersion( d, T, g );
 w = spectra.w; k = spectra.k;
 
+% calculate temporal wave height over the simulation at both the
+% measurement location and the prediction location for cross-checking.
 spectra.eta = zeros(1, numel(t));
 spectra.pred = zeros(1, numel(t));
 
@@ -62,6 +44,7 @@ for i = 1:numel(T)
         0.5*k(i)*A(i)^2 * cos( 2 * (k(i)*x - w(i)*t + E(i)) );
 end
 
+% if missing parameters in the definition above throw an error
 if numel(spectra.T) == numel(spectra.H) && numel(spectra.T) == numel(spectra.E)
     return
 else

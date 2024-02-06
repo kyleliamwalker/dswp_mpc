@@ -1,8 +1,11 @@
+% Author: Dr. Kyle L. Walker
+% Description: Performs Deterministic Sea Wave Prediction for a given set
+% of wave measurements and prediction parameters (time and distance). See
+% papers listed in README.md for more information.
+
 function [ t_p, spectra ] = dswp( TMeasure, x, w1  )
 
-% copied from ryan 
-
-g = 9.81;
+g = 9.81; % gravitational constant
 t = linspace(0,TMeasure,length(w1)); %Measurement time
 tf1 = max(t);
 Ts = mean(diff(t)); %Time Interval between Measurements
@@ -21,26 +24,26 @@ Iv = 1:length(Fv);
 
 A = 1/N * 2.*abs(y(Iv))';
 E = -angle(y(Iv))';
-% filter components
-% min_index = find(Fv > 0.05, 1);
-% max_index = find(Fv < 0.5, 1, 'last');
-% index = find(A > 0.05*max(A));
 
+% filter components
 A_check = A > 0.05*max(A);
 f_check = Fv' > 0.05;
 f_check_2 = Fv' < 0.5;
 
-% spectra.f = Fv(index)';
 spectra.f = Fv(A_check & f_check & f_check_2)';
 spectra.T = 1./spectra.f;
-% spectra.A = A(index);
+
+% Toggle whether components are noisy or not depending on desired test case
+% Here for example, SNR = 15 
+
 % spectra.A = A(A_check & f_check & f_check_2);
 spectra.A = abs(awgn(A(A_check & f_check & f_check_2), 15, 'measured'));
 spectra.H = 2.*spectra.A;
-% spectra.E = E(index);
+
 % spectra.E = E(A_check & f_check & f_check_2);
 spectra.E = abs(awgn(E(A_check & f_check & f_check_2), 15, 'measured'));
 
+% Calculate celerity of extreme frequency components
 c_min = g/(2*pi*max(spectra.f));      
 c_max = g/(2*pi*min(spectra.f));   %calculate min and max speed of wave
 ts2 = x/c_min;
@@ -52,15 +55,7 @@ end
 
 dt = t(2)-t(1);
 t_p = (ts2:dt:tf2);
-
-% for i = 1:length(spectra.T)
-%     [ spectra.L(i), spectra.k(i), spectra.w(i) ] = disper( d, spectra.T(i) );
-% end
-% 
-% spectra.L = spectra.L';
-% spectra.k = spectra.k';
-% spectra.w = spectra.w';
-
+% output other wave parameters required
 spectra.w = 2*pi*spectra.f;
 spectra.k = spectra.w.^2 / g;
 spectra.L = (2*pi)./spectra.k;

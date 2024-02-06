@@ -1,3 +1,7 @@
+% Author: Dr. Kyle L. Walker
+% Description: Plots the robots positional evolution in time and updates
+% all positional errors at the same time.
+
 function [ robot ] = plotter( robot, count )
 
 Y = [ robot.state.x, robot.state.z, robot.state.theta, ...

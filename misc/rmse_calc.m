@@ -1,4 +1,5 @@
-
+% Author: Dr. Kyle L. Walker
+% Description: Calculates Root Mean Square Error (RMSE)
 
 function [ rmse ] = rmse_calc( data, target )
 
