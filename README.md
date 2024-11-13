@@ -2,7 +2,7 @@
 
 ⌛⌛ Under Construction ⌛⌛
 
-* To be noted: this playground utilises CasADi as a solver within a Nonlinear Model Predictive Controller. To avoid issues when running the NMPC launchpad, the Windows CasADi package is included within this repository.
+* To be noted: this playground utilises CasADi as a solver within a Nonlinear Model Predictive Controller. To avoid issues when running the NMPC launchpad, the version of the Windows CasADi package at the time of upload is included within this repository.
 
 **Relevant Publications:**
 
